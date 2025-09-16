@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的APP展示</title>
+    <!-- 
+    文件下载配置说明：
+    1. 将APP文件上传到GitHub Releases或Google Drive
+    2. 将插件文件上传到Google Drive或百度网盘
+    3. 将下载链接替换到相应的href属性中
+    4. 参考"文件上传和下载指南.md"获取详细说明
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .features {
+            background: white;
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8f9ff;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .apps-section {
+            background: white;
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .apps-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .app-card {
+            background: #f8f9ff;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .app-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .app-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .app-features li {
+            padding: 0.3rem 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .app-features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .google-play-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        /* 分页系统样式 */
+        .page-container {
+            display: none;
+            background: white;
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        .page-container h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* 插件卡片样式 */
+        .plugin-card {
+            background: #f8f9ff;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .plugin-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .plugin-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .plugin-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .plugin-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .plugin-features li {
+            padding: 0.3rem 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .plugin-features li:before {
+            content: "✓ ";
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #26a69a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+
+        .about {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .about h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .social-links {
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .apps-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .app-card {
+                padding: 1.5rem;
+            }
+            
+            .app-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .download-btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            
+            .plugin-card {
+                padding: 1.5rem;
+            }
+            
+            .plugin-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">我的作品</div>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#" onclick="showPage('apps')">APP开发</a></li>
+                <li><a href="#" onclick="showPage('plugins')">插件</a></li>
+                <li><a href="#" onclick="showPage('software')">软件</a></li>
+                <li><a href="#about">关于</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>欢迎来到我的作品世界</h1>
+                <p>发现我精心开发的各种应用程序、插件和软件，每一款都致力于提升您的工作和生活体验</p>
+                <a href="#" onclick="showPage('apps')" class="btn">开始探索</a>
+            </div>
+        </section>
+
+        <!-- APP开发页面 -->
+        <div id="apps-page" class="page-container">
+            <div class="container">
+                <h2>APP开发</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <div class="app-icon">📱</div>
+                        <h3>智能记事本</h3>
+                        <p class="app-description">一款功能强大的记事本应用，支持文字、图片、语音记录，让您的生活更加有序。</p>
+                        <ul class="app-features">
+                            <li>支持多种记录方式</li>
+                            <li>云端同步备份</li>
+                            <li>智能分类标签</li>
+                            <li>密码保护功能</li>
+                        </ul>
+                        <a href="https://play.google.com/store/apps/details?id=com.example.notepad" class="download-btn" target="_blank">
+                            <span class="google-play-icon">📱</span>
+                            在Google Play下载
+                        </a>
+                    </div>
+                    
+                    <div class="app-card">
+                        <div class="app-icon">🏃‍♂️</div>
+                        <h3>健身助手</h3>
+                        <p class="app-description">专业的健身追踪应用，帮助您制定训练计划，记录运动数据，实现健康目标。</p>
+                        <ul class="app-features">
+                            <li>个性化训练计划</li>
+                            <li>运动数据统计</li>
+                            <li>营养建议</li>
+                            <li>社区分享功能</li>
+                        </ul>
+                        <a href="https://play.google.com/store/apps/details?id=com.example.fitness" class="download-btn" target="_blank">
+                            <span class="google-play-icon">📱</span>
+                            在Google Play下载
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 插件页面 -->
+        <div id="plugins-page" class="page-container">
+            <div class="container">
+                <h2>插件</h2>
+                <div class="apps-grid">
+                    <div class="plugin-card">
+                        <div class="plugin-icon">🎬</div>
+                        <h3>达芬奇Fusion插件包</h3>
+                        <p class="plugin-description">专为DaVinci Resolve Fusion设计的专业插件集合，提供强大的视觉效果和转场功能。</p>
+                        <ul class="plugin-features">
+                            <li>专业转场效果</li>
+                            <li>色彩校正工具</li>
+                            <li>粒子特效系统</li>
+                            <li>一键应用预设</li>
+                        </ul>
+                        <a href="https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing" class="download-btn" target="_blank">
+                            <span class="google-play-icon">⬇️</span>
+                            下载插件
+                        </a>
+                    </div>
+                    
+                    <!-- 空状态示例 - 当没有更多插件时显示 -->
+                    <div class="empty-state" style="display: none;">
+                        <div class="icon">🔌</div>
+                        <h3>更多插件开发中</h3>
+                        <p>我们正在开发更多实用的插件，敬请期待！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 软件页面 -->
+        <div id="software-page" class="page-container">
+            <div class="container">
+                <h2>软件</h2>
+                <div class="empty-state">
+                    <div class="icon">💻</div>
+                    <h3>软件开发中</h3>
+                    <p>我们正在开发各种实用的桌面软件，包括生产力工具、创意软件等，敬请期待！</p>
+                </div>
+            </div>
+        </div>
+
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>关于我</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>我是一名热爱移动应用开发的程序员，专注于创造实用且美观的Android应用。我的目标是开发能够真正帮助用户解决问题的应用程序。</p>
+                        <ul style="margin-top: 1rem; padding-left: 2rem;">
+                            <li>专注于用户体验设计</li>
+                            <li>追求代码质量和性能优化</li>
+                            <li>持续学习新技术和趋势</li>
+                            <li>注重应用的实用性和创新性</li>
+                        </ul>
+                        <p style="margin-top: 1rem;">每一款应用都经过精心设计和反复测试，确保为用户提供最佳的使用体验。</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="profile-img">👨‍💻</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 我的作品展示. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // 添加APP卡片的交互效果
+        document.querySelectorAll('.app-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 20px 40px rgba(102, 126, 234, 0.3)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            });
+        });
+
+        // 下载按钮点击统计（可选）
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('用户点击了下载按钮:', this.href);
+                // 这里可以添加统计代码
+            });
+        });
+
+        // 分页系统
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示选中的页面
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+                
+                // 滚动到页面顶部
+                targetPage.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // 内容管理功能
+        function toggleContent(elementId, show) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.style.display = show ? 'block' : 'none';
+            }
+        }
+
+        // 添加新内容的功能（供您手动使用）
+        function addNewApp(appData) {
+            const appsGrid = document.querySelector('#apps-page .apps-grid');
+            if (appsGrid && appData) {
+                const appCard = document.createElement('div');
+                appCard.className = 'app-card';
+                appCard.innerHTML = `
+                    <div class="app-icon">${appData.icon || '📱'}</div>
+                    <h3>${appData.name}</h3>
+                    <p class="app-description">${appData.description}</p>
+                    <ul class="app-features">
+                        ${appData.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <a href="${appData.downloadUrl}" class="download-btn" target="_blank">
+                        <span class="google-play-icon">📱</span>
+                        在Google Play下载
+                    </a>
+                `;
+                appsGrid.appendChild(appCard);
+            }
+        }
+
+        function addNewPlugin(pluginData) {
+            const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
+            if (pluginsGrid && pluginData) {
+                const pluginCard = document.createElement('div');
+                pluginCard.className = 'plugin-card';
+                pluginCard.innerHTML = `
+                    <div class="plugin-icon">${pluginData.icon || '🔌'}</div>
+                    <h3>${pluginData.name}</h3>
+                    <p class="plugin-description">${pluginData.description}</p>
+                    <ul class="plugin-features">
+                        ${pluginData.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <a href="${pluginData.downloadUrl}" class="download-btn" target="_blank">
+                        <span class="google-play-icon">⬇️</span>
+                        下载插件
+                    </a>
+                `;
+                pluginsGrid.appendChild(pluginCard);
+            }
+        }
+    </script>
+</body>
+</html>
