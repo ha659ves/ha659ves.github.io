@@ -9,16 +9,7 @@ const appsData = [
 // 插件数据
 const pluginsData = [
     {
-        // name: "达芬奇Fusion插件包",
-        // description: "专为DaVinci Resolve Fusion设计的专业插件集合，提供强大的视觉效果和转场功能",
-        // icon: "🎬",
-        // features: [
-        //     "专业转场效果",
-        //     "色彩校正工具",
-        //     "粒子特效系统",
-        //     "一键应用预设"
-        // ],
-        // downloadUrl: "https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing"
+    //
     }
     // 在这里添加更多插件...
 ];
@@ -34,4 +25,5 @@ const imagesData = {
     // "智能记事本": "https://example.com/notepad-icon.png",
     // "健身助手": "https://example.com/fitness-icon.png"
 };
+
 
