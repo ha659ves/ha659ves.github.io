@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的APP展示</title>
     <!-- 
-    Google Sheets 内容管理系统配置：
-    1. 创建Google Sheets，包含"APP开发"、"插件"、"软件"三个工作表
-    2. 设置表格为公开可查看
-    3. 将下面的YOUR_SHEET_ID替换为您的Google Sheets ID
-    4. 参考"Google_Sheets_内容管理系统.md"获取详细说明
+    内容管理说明：
+    1. 编辑 data.js 文件来添加/修改内容
+    2. 支持添加APP、插件、软件
+    3. 支持添加图片链接
+    4. 修改后刷新网页即可看到效果
     -->
     <style>
         * {
@@ -888,14 +888,51 @@
 
         // 页面加载完成后自动读取数据
         document.addEventListener('DOMContentLoaded', function() {
-            // 加载Google Sheets数据
-            loadDataFromSheets();
+            // 加载本地存储的数据
+            loadLocalData();
             
             // 添加卡片交互效果（动态添加的卡片）
             setTimeout(() => {
                 addCardInteractions();
             }, 1000);
         });
+
+        // 加载本地存储的数据
+        function loadLocalData() {
+            // 加载APP数据
+            const apps = loadFromStorage('apps');
+            apps.forEach(app => {
+                const appsGrid = document.querySelector('#apps-page .apps-grid');
+                if (appsGrid) {
+                    const appCard = createAppCard(app);
+                    appsGrid.appendChild(appCard);
+                }
+            });
+
+            // 加载插件数据
+            const plugins = loadFromStorage('plugins');
+            plugins.forEach(plugin => {
+                const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
+                if (pluginsGrid) {
+                    const pluginCard = createPluginCard(plugin);
+                    pluginsGrid.appendChild(pluginCard);
+                }
+            });
+
+            // 加载软件数据
+            const software = loadFromStorage('software');
+            software.forEach(soft => {
+                const softwareGrid = document.querySelector('#software-page .apps-grid');
+                if (softwareGrid) {
+                    const softwareCard = createSoftwareCard(soft);
+                    softwareGrid.appendChild(softwareCard);
+                }
+            });
+
+            console.log(`📱 已加载 ${apps.length} 个APP`);
+            console.log(`🔌 已加载 ${plugins.length} 个插件`);
+            console.log(`💻 已加载 ${software.length} 个软件`);
+        }
 
         // 添加卡片交互效果
         function addCardInteractions() {
@@ -1067,74 +1104,117 @@
             return card;
         }
 
-        // 内容管理功能 - 浏览器控制台版本
+        // 本地存储管理
+        function saveToStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function loadFromStorage(key) {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : [];
+        }
+
+        // 内容管理功能 - 浏览器控制台版本（带本地存储）
         function addNewApp(appData) {
             const appsGrid = document.querySelector('#apps-page .apps-grid');
             if (appsGrid && appData) {
-                const appCard = document.createElement('div');
-                appCard.className = 'app-card';
-                appCard.innerHTML = `
-                    <div class="app-icon">${appData.icon || '📱'}</div>
-                    <h3>${appData.name}</h3>
-                    <p class="app-description">${appData.description}</p>
-                    <ul class="app-features">
-                        ${appData.features.map(feature => `<li>${feature}</li>`).join('')}
-                    </ul>
-                    <a href="${appData.downloadUrl}" class="download-btn" target="_blank">
-                        <span class="google-play-icon">📱</span>
-                        在Google Play下载
-                    </a>
-                `;
+                // 保存到本地存储
+                const existingApps = loadFromStorage('apps');
+                existingApps.push(appData);
+                saveToStorage('apps', existingApps);
+                
+                // 添加到页面
+                const appCard = createAppCard(appData);
                 appsGrid.appendChild(appCard);
                 addCardInteractions();
                 console.log('✅ APP添加成功:', appData.name);
             }
         }
 
+        function createAppCard(appData) {
+            const appCard = document.createElement('div');
+            appCard.className = 'app-card';
+            appCard.innerHTML = `
+                <div class="app-icon">${appData.icon || '📱'}</div>
+                <h3>${appData.name}</h3>
+                <p class="app-description">${appData.description}</p>
+                <ul class="app-features">
+                    ${appData.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+                <a href="${appData.downloadUrl}" class="download-btn" target="_blank">
+                    <span class="google-play-icon">📱</span>
+                    在Google Play下载
+                </a>
+            `;
+            return appCard;
+        }
+
         function addNewPlugin(pluginData) {
             const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
             if (pluginsGrid && pluginData) {
-                const pluginCard = document.createElement('div');
-                pluginCard.className = 'plugin-card';
-                pluginCard.innerHTML = `
-                    <div class="plugin-icon">${pluginData.icon || '🔌'}</div>
-                    <h3>${pluginData.name}</h3>
-                    <p class="plugin-description">${pluginData.description}</p>
-                    <ul class="plugin-features">
-                        ${pluginData.features.map(feature => `<li>${feature}</li>`).join('')}
-                    </ul>
-                    <a href="${pluginData.downloadUrl}" class="download-btn" target="_blank">
-                        <span class="google-play-icon">⬇️</span>
-                        下载插件
-                    </a>
-                `;
+                // 保存到本地存储
+                const existingPlugins = loadFromStorage('plugins');
+                existingPlugins.push(pluginData);
+                saveToStorage('plugins', existingPlugins);
+                
+                // 添加到页面
+                const pluginCard = createPluginCard(pluginData);
                 pluginsGrid.appendChild(pluginCard);
                 addCardInteractions();
                 console.log('✅ 插件添加成功:', pluginData.name);
             }
         }
 
+        function createPluginCard(pluginData) {
+            const pluginCard = document.createElement('div');
+            pluginCard.className = 'plugin-card';
+            pluginCard.innerHTML = `
+                <div class="plugin-icon">${pluginData.icon || '🔌'}</div>
+                <h3>${pluginData.name}</h3>
+                <p class="plugin-description">${pluginData.description}</p>
+                <ul class="plugin-features">
+                    ${pluginData.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+                <a href="${pluginData.downloadUrl}" class="download-btn" target="_blank">
+                    <span class="google-play-icon">⬇️</span>
+                    下载插件
+                </a>
+            `;
+            return pluginCard;
+        }
+
         function addNewSoftware(softwareData) {
             const softwareGrid = document.querySelector('#software-page .apps-grid');
             if (softwareGrid && softwareData) {
-                const softwareCard = document.createElement('div');
-                softwareCard.className = 'app-card';
-                softwareCard.innerHTML = `
-                    <div class="app-icon">${softwareData.icon || '💻'}</div>
-                    <h3>${softwareData.name}</h3>
-                    <p class="app-description">${softwareData.description}</p>
-                    <ul class="app-features">
-                        ${softwareData.features.map(feature => `<li>${feature}</li>`).join('')}
-                    </ul>
-                    <a href="${softwareData.downloadUrl}" class="download-btn" target="_blank">
-                        <span class="google-play-icon">⬇️</span>
-                        下载软件
-                    </a>
-                `;
+                // 保存到本地存储
+                const existingSoftware = loadFromStorage('software');
+                existingSoftware.push(softwareData);
+                saveToStorage('software', existingSoftware);
+                
+                // 添加到页面
+                const softwareCard = createSoftwareCard(softwareData);
                 softwareGrid.appendChild(softwareCard);
                 addCardInteractions();
                 console.log('✅ 软件添加成功:', softwareData.name);
             }
+        }
+
+        function createSoftwareCard(softwareData) {
+            const softwareCard = document.createElement('div');
+            softwareCard.className = 'app-card';
+            softwareCard.innerHTML = `
+                <div class="app-icon">${softwareData.icon || '💻'}</div>
+                <h3>${softwareData.name}</h3>
+                <p class="app-description">${softwareData.description}</p>
+                <ul class="app-features">
+                    ${softwareData.features.map(feature => `<li>${feature}</li>`).join('')}
+                </ul>
+                <a href="${softwareData.downloadUrl}" class="download-btn" target="_blank">
+                    <span class="google-play-icon">⬇️</span>
+                    下载软件
+                </a>
+            `;
+            return softwareCard;
         }
 
         // 清空页面内容
@@ -1268,6 +1348,74 @@ showHelp();
                 }, 5000);
             });
         });
+    </script>
+    
+    <!-- 加载数据文件 -->
+    <script src="data.js"></script>
+    
+    <!-- 自动加载数据 -->
+    <script>
+        // 页面加载完成后自动加载数据
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载APP数据
+            if (typeof appsData !== 'undefined') {
+                loadAppsData();
+            }
+            
+            // 加载插件数据
+            if (typeof pluginsData !== 'undefined') {
+                loadPluginsData();
+            }
+            
+            // 加载软件数据
+            if (typeof softwareData !== 'undefined') {
+                loadSoftwareData();
+            }
+            
+            // 添加卡片交互效果
+            setTimeout(() => {
+                addCardInteractions();
+            }, 1000);
+        });
+
+        // 加载APP数据
+        function loadAppsData() {
+            const appsGrid = document.querySelector('#apps-page .apps-grid');
+            if (appsGrid && appsData) {
+                appsGrid.innerHTML = ''; // 清空现有内容
+                appsData.forEach(app => {
+                    const appCard = createAppCard(app);
+                    appsGrid.appendChild(appCard);
+                });
+                console.log(`📱 已加载 ${appsData.length} 个APP`);
+            }
+        }
+
+        // 加载插件数据
+        function loadPluginsData() {
+            const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
+            if (pluginsGrid && pluginsData) {
+                pluginsGrid.innerHTML = ''; // 清空现有内容
+                pluginsData.forEach(plugin => {
+                    const pluginCard = createPluginCard(plugin);
+                    pluginsGrid.appendChild(pluginCard);
+                });
+                console.log(`🔌 已加载 ${pluginsData.length} 个插件`);
+            }
+        }
+
+        // 加载软件数据
+        function loadSoftwareData() {
+            const softwareGrid = document.querySelector('#software-page .apps-grid');
+            if (softwareGrid && softwareData) {
+                softwareGrid.innerHTML = ''; // 清空现有内容
+                softwareData.forEach(software => {
+                    const softwareCard = createSoftwareCard(software);
+                    softwareGrid.appendChild(softwareCard);
+                });
+                console.log(`💻 已加载 ${softwareData.length} 个软件`);
+            }
+        }
     </script>
 </body>
 </html>
