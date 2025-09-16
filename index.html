@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的APP展示</title>
     <!-- 
-    文件下载配置说明：
-    1. 将APP文件上传到GitHub Releases或Google Drive
-    2. 将插件文件上传到Google Drive或百度网盘
-    3. 将下载链接替换到相应的href属性中
-    4. 参考"文件上传和下载指南.md"获取详细说明
+    Google Sheets 内容管理系统配置：
+    1. 创建Google Sheets，包含"APP开发"、"插件"、"软件"三个工作表
+    2. 设置表格为公开可查看
+    3. 将下面的YOUR_SHEET_ID替换为您的Google Sheets ID
+    4. 参考"Google_Sheets_内容管理系统.md"获取详细说明
     -->
-    
     <style>
         * {
             margin: 0;
@@ -393,6 +392,152 @@
             box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
+        /* 联系表单样式 */
+        .contact-section {
+            background: white;
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-info h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-item .icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+
+        .contact-item .text {
+            flex: 1;
+        }
+
+        .contact-item .text h4 {
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+
+        .contact-item .text p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .feedback-form {
+            background: #f8f9ff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
 
         .about {
             background: rgba(255, 255, 255, 0.1);
@@ -504,6 +649,19 @@
                 height: 60px;
                 font-size: 2rem;
             }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .contact-info {
+                padding: 1rem;
+            }
+            
+            .feedback-form {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -517,6 +675,7 @@
                 <li><a href="#" onclick="showPage('plugins')">插件</a></li>
                 <li><a href="#" onclick="showPage('software')">软件</a></li>
                 <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
             </ul>
         </nav>
     </header>
@@ -613,6 +772,56 @@
             </div>
         </div>
 
+        <!-- 联系表单区域 -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>意见反馈</h2>
+                <div class="contact-content" style="max-width: 600px; margin: 0 auto;">
+                    <div class="feedback-form">
+                        <p style="color: #666; margin-bottom: 1.5rem; text-align: center;">有什么建议或问题？请告诉我们！</p>
+                        <form id="feedbackForm">
+                            <div class="form-group">
+                                <label for="name">姓名 *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱 *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">主题 *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">请选择反馈类型</option>
+                                    <option value="app-bug">APP问题反馈</option>
+                                    <option value="feature-request">功能建议</option>
+                                    <option value="plugin-issue">插件问题</option>
+                                    <option value="general">一般咨询</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="app">相关产品</label>
+                                <select id="app" name="app">
+                                    <option value="">请选择相关产品（可选）</option>
+                                    <option value="智能记事本">智能记事本</option>
+                                    <option value="健身助手">健身助手</option>
+                                    <option value="达芬奇Fusion插件">达芬奇Fusion插件</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">详细内容 *</label>
+                                <textarea id="message" name="message" placeholder="请详细描述您的问题或建议..." required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">发送反馈</button>
+                            <div class="success-message" id="successMessage">
+                                感谢您的反馈！我们会尽快回复您。
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section id="about" class="about">
             <div class="container">
@@ -638,6 +847,12 @@
 
     <footer>
         <div class="container">
+            <div class="social-links">
+                <a href="mailto:your-email@example.com">📧 邮箱</a>
+                <a href="https://github.com/yourusername" target="_blank">🐙 GitHub</a>
+                <a href="#">💼 微信</a>
+                <a href="https://play.google.com/store/apps/developer?id=Your+Developer+Name" target="_blank">📱 Google Play</a>
+            </div>
             <p>&copy; 2024 我的作品展示. 保留所有权利.</p>
         </div>
     </footer>
@@ -667,16 +882,29 @@
             }
         });
 
-        // 添加APP卡片的交互效果
-        document.querySelectorAll('.app-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.boxShadow = '0 20px 40px rgba(102, 126, 234, 0.3)';
-            });
+        // 页面加载完成后自动读取数据
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载Google Sheets数据
+            loadDataFromSheets();
             
-            card.addEventListener('mouseleave', function() {
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            });
+            // 添加卡片交互效果（动态添加的卡片）
+            setTimeout(() => {
+                addCardInteractions();
+            }, 1000);
         });
+
+        // 添加卡片交互效果
+        function addCardInteractions() {
+            document.querySelectorAll('.app-card, .plugin-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 20px 40px rgba(102, 126, 234, 0.3)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                });
+            });
+        }
 
         // 下载按钮点击统计（可选）
         document.querySelectorAll('.download-btn').forEach(btn => {
@@ -686,6 +914,9 @@
             });
         });
 
+        // Google Sheets 配置
+        const GOOGLE_SHEET_ID = '1yDhqxKJB4RHT7TOlQuHCKztr2-j-0n6zpnGfw3snWe0'; // 请替换为您的Google Sheets ID
+        
         // 分页系统
         function showPage(pageId) {
             // 隐藏所有页面
@@ -704,6 +935,132 @@
                     block: 'start'
                 });
             }
+        }
+
+        // 从Google Sheets读取数据
+        async function loadDataFromSheets() {
+            if (GOOGLE_SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+                console.log('请先配置Google Sheets ID');
+                return;
+            }
+
+            try {
+                // 读取APP开发数据
+                await loadSheetData('APP开发', 'apps-page');
+                // 读取插件数据
+                await loadSheetData('插件', 'plugins-page');
+                // 读取软件数据
+                await loadSheetData('软件', 'software-page');
+            } catch (error) {
+                console.error('加载数据失败:', error);
+            }
+        }
+
+        // 读取单个工作表数据
+        async function loadSheetData(sheetName, pageId) {
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+                const response = await fetch(url);
+                const csvText = await response.text();
+                const data = parseCSV(csvText);
+                
+                // 渲染数据到页面
+                renderDataToPage(data, pageId, sheetName);
+            } catch (error) {
+                console.error(`加载${sheetName}数据失败:`, error);
+            }
+        }
+
+        // 解析CSV数据
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n');
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                if (lines[i].trim()) {
+                    const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] || '';
+                    });
+                    data.push(row);
+                }
+            }
+            
+            return data;
+        }
+
+        // 渲染数据到页面
+        function renderDataToPage(data, pageId, sheetName) {
+            const page = document.getElementById(pageId);
+            if (!page) return;
+            
+            const grid = page.querySelector('.apps-grid');
+            if (!grid) return;
+            
+            // 清空现有内容
+            grid.innerHTML = '';
+            
+            // 过滤显示状态的数据
+            const visibleData = data.filter(item => item['状态'] === '显示');
+            
+            if (visibleData.length === 0) {
+                // 显示空状态
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.innerHTML = `
+                    <div class="icon">${sheetName === 'APP开发' ? '📱' : sheetName === '插件' ? '🔌' : '💻'}</div>
+                    <h3>${sheetName}开发中</h3>
+                    <p>我们正在开发更多实用的${sheetName}，敬请期待！</p>
+                `;
+                grid.appendChild(emptyState);
+                return;
+            }
+            
+            // 渲染数据卡片
+            visibleData.forEach(item => {
+                const card = createDataCard(item, sheetName);
+                grid.appendChild(card);
+            });
+            
+            // 为新添加的卡片添加交互效果
+            setTimeout(() => {
+                addCardInteractions();
+            }, 100);
+        }
+
+        // 创建数据卡片
+        function createDataCard(item, sheetName) {
+            const card = document.createElement('div');
+            const isPlugin = sheetName === '插件';
+            card.className = isPlugin ? 'plugin-card' : 'app-card';
+            
+            // 获取功能列表
+            const features = [];
+            for (let i = 1; i <= 10; i++) {
+                const feature = item[`功能${i}`];
+                if (feature && feature.trim()) {
+                    features.push(feature.trim());
+                }
+            }
+            
+            const featuresHTML = features.map(feature => `<li>${feature}</li>`).join('');
+            
+            card.innerHTML = `
+                <div class="${isPlugin ? 'plugin-icon' : 'app-icon'}">${item['图标'] || (isPlugin ? '🔌' : '📱')}</div>
+                <h3>${item['名称'] || '未命名'}</h3>
+                <p class="${isPlugin ? 'plugin-description' : 'app-description'}">${item['描述'] || '暂无描述'}</p>
+                <ul class="${isPlugin ? 'plugin-features' : 'app-features'}">
+                    ${featuresHTML}
+                </ul>
+                <a href="${item['下载链接'] || '#'}" class="download-btn" target="_blank">
+                    <span class="google-play-icon">${isPlugin ? '⬇️' : '📱'}</span>
+                    ${isPlugin ? '下载插件' : '在Google Play下载'}
+                </a>
+            `;
+            
+            return card;
         }
 
         // 内容管理功能
@@ -756,7 +1113,79 @@
                 pluginsGrid.appendChild(pluginCard);
             }
         }
+
+        // 反馈表单处理
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const successMessage = document.getElementById('successMessage');
+            
+            // 禁用提交按钮
+            submitBtn.disabled = true;
+            submitBtn.textContent = '发送中...';
+            
+            // 获取表单数据
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                app: formData.get('app'),
+                message: formData.get('message')
+            };
+            
+            // 发送到Google Sheets
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3BOx_3w2j6RLpt_Lyy4VM244bNwzIU6EXh7yS4Lpt7DtkKNU0xTbeW0xFL0bPgCYtUw/exec';
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // 重要：避免CORS问题
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                // 显示成功消息
+                successMessage.style.display = 'block';
+                successMessage.textContent = '感谢您的反馈！我们会尽快回复您。';
+                successMessage.style.background = '#d4edda';
+                successMessage.style.color = '#155724';
+                
+                // 重置表单
+                this.reset();
+                
+                // 恢复按钮状态
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送反馈';
+                
+                // 5秒后隐藏成功消息
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                
+                console.log('反馈已成功提交到Google Sheets:', data);
+            })
+            .catch((error) => {
+                console.error('提交失败:', error);
+                
+                // 显示错误消息
+                successMessage.style.display = 'block';
+                successMessage.textContent = '提交失败，请稍后重试或直接发送邮件联系我们。';
+                successMessage.style.background = '#f8d7da';
+                successMessage.style.color = '#721c24';
+                
+                // 恢复按钮状态
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送反馈';
+                
+                // 5秒后隐藏错误消息
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            });
+        });
     </script>
 </body>
 </html>
-
