@@ -835,8 +835,8 @@
 
         // 页面加载完成后自动读取数据
         document.addEventListener('DOMContentLoaded', function() {
-            // 加载本地存储的数据
-            loadLocalData();
+            // 加载data.js中的数据
+            loadDataFromJS();
             
             // 添加卡片交互效果（动态添加的卡片）
             setTimeout(() => {
@@ -844,41 +844,22 @@
             }, 1000);
         });
 
-        // 加载本地存储的数据
-        function loadLocalData() {
+        // 从data.js加载数据
+        function loadDataFromJS() {
             // 加载APP数据
-            const apps = loadFromStorage('apps');
-            apps.forEach(app => {
-                const appsGrid = document.querySelector('#apps-page .apps-grid');
-                if (appsGrid) {
-                    const appCard = createAppCard(app);
-                    appsGrid.appendChild(appCard);
-                }
-            });
-
+            if (typeof appsData !== 'undefined') {
+                loadAppsData();
+            }
+            
             // 加载插件数据
-            const plugins = loadFromStorage('plugins');
-            plugins.forEach(plugin => {
-                const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
-                if (pluginsGrid) {
-                    const pluginCard = createPluginCard(plugin);
-                    pluginsGrid.appendChild(pluginCard);
-                }
-            });
-
+            if (typeof pluginsData !== 'undefined') {
+                loadPluginsData();
+            }
+            
             // 加载软件数据
-            const software = loadFromStorage('software');
-            software.forEach(soft => {
-                const softwareGrid = document.querySelector('#software-page .apps-grid');
-                if (softwareGrid) {
-                    const softwareCard = createSoftwareCard(soft);
-                    softwareGrid.appendChild(softwareCard);
-                }
-            });
-
-            console.log(`📱 已加载 ${apps.length} 个APP`);
-            console.log(`🔌 已加载 ${plugins.length} 个插件`);
-            console.log(`💻 已加载 ${software.length} 个软件`);
+            if (typeof softwareData !== 'undefined') {
+                loadSoftwareData();
+            }
         }
 
         // 添加卡片交互效果
