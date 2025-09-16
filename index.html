@@ -694,39 +694,9 @@
             <div class="container">
                 <h2>APP开发</h2>
                 <div class="apps-grid">
-                    <div class="app-card">
-                        <div class="app-icon">📱</div>
-                        <h3>智能记事本</h3>
-                        <p class="app-description">一款功能强大的记事本应用，支持文字、图片、语音记录，让您的生活更加有序。</p>
-                        <ul class="app-features">
-                            <li>支持多种记录方式</li>
-                            <li>云端同步备份</li>
-                            <li>智能分类标签</li>
-                            <li>密码保护功能</li>
-                        </ul>
-                        <a href="https://play.google.com/store/apps/details?id=com.example.notepad" class="download-btn" target="_blank">
-                            <span class="google-play-icon">📱</span>
-                            在Google Play下载
-                        </a>
+                    <!-- 内容将通过 data.js 自动加载 -->
                     </div>
-                    
-                    <div class="app-card">
-                        <div class="app-icon">🏃‍♂️</div>
-                        <h3>健身助手</h3>
-                        <p class="app-description">专业的健身追踪应用，帮助您制定训练计划，记录运动数据，实现健康目标。</p>
-                        <ul class="app-features">
-                            <li>个性化训练计划</li>
-                            <li>运动数据统计</li>
-                            <li>营养建议</li>
-                            <li>社区分享功能</li>
-                        </ul>
-                        <a href="https://play.google.com/store/apps/details?id=com.example.fitness" class="download-btn" target="_blank">
-                            <span class="google-play-icon">📱</span>
-                            在Google Play下载
-                        </a>
                     </div>
-                </div>
-            </div>
         </div>
 
         <!-- 插件页面 -->
@@ -734,28 +704,7 @@
             <div class="container">
                 <h2>插件</h2>
                 <div class="apps-grid">
-                    <div class="plugin-card">
-                        <div class="plugin-icon">🎬</div>
-                        <h3>达芬奇Fusion插件包</h3>
-                        <p class="plugin-description">专为DaVinci Resolve Fusion设计的专业插件集合，提供强大的视觉效果和转场功能。</p>
-                        <ul class="plugin-features">
-                            <li>专业转场效果</li>
-                            <li>色彩校正工具</li>
-                            <li>粒子特效系统</li>
-                            <li>一键应用预设</li>
-                        </ul>
-                        <a href="https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing" class="download-btn" target="_blank">
-                            <span class="google-play-icon">⬇️</span>
-                            下载插件
-                        </a>
-                    </div>
-                    
-                    <!-- 空状态示例 - 当没有更多插件时显示 -->
-                    <div class="empty-state" style="display: none;">
-                        <div class="icon">🔌</div>
-                        <h3>更多插件开发中</h3>
-                        <p>我们正在开发更多实用的插件，敬请期待！</p>
-                    </div>
+                    <!-- 内容将通过 data.js 自动加载 -->
                 </div>
             </div>
         </div>
@@ -764,10 +713,8 @@
         <div id="software-page" class="page-container">
             <div class="container">
                 <h2>软件</h2>
-                <div class="empty-state">
-                    <div class="icon">💻</div>
-                    <h3>软件开发中</h3>
-                    <p>我们正在开发各种实用的桌面软件，包括生产力工具、创意软件等，敬请期待！</p>
+                <div class="apps-grid">
+                    <!-- 内容将通过 data.js 自动加载 -->
                 </div>
             </div>
         </div>
@@ -939,9 +886,9 @@
             document.querySelectorAll('.app-card, .plugin-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                     this.style.boxShadow = '0 20px 40px rgba(102, 126, 234, 0.3)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
+            });
+            
+            card.addEventListener('mouseleave', function() {
                     this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
                 });
             });
@@ -1383,10 +1330,23 @@ showHelp();
             const appsGrid = document.querySelector('#apps-page .apps-grid');
             if (appsGrid && appsData) {
                 appsGrid.innerHTML = ''; // 清空现有内容
-                appsData.forEach(app => {
-                    const appCard = createAppCard(app);
-                    appsGrid.appendChild(appCard);
-                });
+                
+                if (appsData.length === 0) {
+                    // 显示空状态
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = `
+                        <div class="icon">📱</div>
+                        <h3>APP开发中</h3>
+                        <p>我们正在开发更多实用的移动应用，敬请期待！</p>
+                    `;
+                    appsGrid.appendChild(emptyState);
+                } else {
+                    appsData.forEach(app => {
+                        const appCard = createAppCard(app);
+                        appsGrid.appendChild(appCard);
+                    });
+                }
                 console.log(`📱 已加载 ${appsData.length} 个APP`);
             }
         }
@@ -1409,10 +1369,23 @@ showHelp();
             const softwareGrid = document.querySelector('#software-page .apps-grid');
             if (softwareGrid && softwareData) {
                 softwareGrid.innerHTML = ''; // 清空现有内容
-                softwareData.forEach(software => {
-                    const softwareCard = createSoftwareCard(software);
-                    softwareGrid.appendChild(softwareCard);
-                });
+                
+                if (softwareData.length === 0) {
+                    // 显示空状态
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = `
+                        <div class="icon">💻</div>
+                        <h3>软件开发中</h3>
+                        <p>我们正在开发各种实用的桌面软件，包括生产力工具、创意软件等，敬请期待！</p>
+                    `;
+                    softwareGrid.appendChild(emptyState);
+                } else {
+                    softwareData.forEach(software => {
+                        const softwareCard = createSoftwareCard(software);
+                        softwareGrid.appendChild(softwareCard);
+                    });
+                }
                 console.log(`💻 已加载 ${softwareData.length} 个软件`);
             }
         }
