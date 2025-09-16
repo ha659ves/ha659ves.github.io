@@ -866,11 +866,11 @@
                 // 检查href是否有效（不是单独的#）
                 if (href && href !== '#' && href.length > 1) {
                     const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                     }
                 }
             });
@@ -1067,15 +1067,7 @@
             return card;
         }
 
-        // 内容管理功能
-        function toggleContent(elementId, show) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.style.display = show ? 'block' : 'none';
-            }
-        }
-
-        // 添加新内容的功能（供您手动使用）
+        // 内容管理功能 - 浏览器控制台版本
         function addNewApp(appData) {
             const appsGrid = document.querySelector('#apps-page .apps-grid');
             if (appsGrid && appData) {
@@ -1094,6 +1086,8 @@
                     </a>
                 `;
                 appsGrid.appendChild(appCard);
+                addCardInteractions();
+                console.log('✅ APP添加成功:', appData.name);
             }
         }
 
@@ -1115,8 +1109,92 @@
                     </a>
                 `;
                 pluginsGrid.appendChild(pluginCard);
+                addCardInteractions();
+                console.log('✅ 插件添加成功:', pluginData.name);
             }
         }
+
+        function addNewSoftware(softwareData) {
+            const softwareGrid = document.querySelector('#software-page .apps-grid');
+            if (softwareGrid && softwareData) {
+                const softwareCard = document.createElement('div');
+                softwareCard.className = 'app-card';
+                softwareCard.innerHTML = `
+                    <div class="app-icon">${softwareData.icon || '💻'}</div>
+                    <h3>${softwareData.name}</h3>
+                    <p class="app-description">${softwareData.description}</p>
+                    <ul class="app-features">
+                        ${softwareData.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+                    <a href="${softwareData.downloadUrl}" class="download-btn" target="_blank">
+                        <span class="google-play-icon">⬇️</span>
+                        下载软件
+                    </a>
+                `;
+                softwareGrid.appendChild(softwareCard);
+                addCardInteractions();
+                console.log('✅ 软件添加成功:', softwareData.name);
+            }
+        }
+
+        // 清空页面内容
+        function clearPage(pageType) {
+            const pageId = pageType + '-page';
+            const grid = document.querySelector(`#${pageId} .apps-grid`);
+            if (grid) {
+                grid.innerHTML = '';
+                console.log(`✅ ${pageType}页面已清空`);
+            }
+        }
+
+        // 显示使用说明
+        function showHelp() {
+            console.log(`
+🎯 内容管理命令：
+
+📱 添加APP：
+addNewApp({
+    name: "APP名称",
+    description: "APP描述",
+    icon: "📱",
+    features: ["功能1", "功能2", "功能3"],
+    downloadUrl: "下载链接"
+});
+
+🔌 添加插件：
+addNewPlugin({
+    name: "插件名称", 
+    description: "插件描述",
+    icon: "🎬",
+    features: ["功能1", "功能2", "功能3"],
+    downloadUrl: "下载链接"
+});
+
+💻 添加软件：
+addNewSoftware({
+    name: "软件名称",
+    description: "软件描述", 
+    icon: "💻",
+    features: ["功能1", "功能2", "功能3"],
+    downloadUrl: "下载链接"
+});
+
+🗑️ 清空页面：
+clearPage('apps');     // 清空APP页面
+clearPage('plugins');  // 清空插件页面
+clearPage('software'); // 清空软件页面
+
+❓ 显示帮助：
+showHelp();
+            `);
+        }
+
+        // 页面加载时显示帮助
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                console.log('🎉 内容管理系统已加载！输入 showHelp() 查看使用说明');
+            }, 1000);
+        });
 
         // 反馈表单处理
         document.getElementById('feedbackForm').addEventListener('submit', function(e) {
