@@ -1337,10 +1337,23 @@ showHelp();
             const pluginsGrid = document.querySelector('#plugins-page .apps-grid');
             if (pluginsGrid && pluginsData) {
                 pluginsGrid.innerHTML = ''; // 清空现有内容
-                pluginsData.forEach(plugin => {
-                    const pluginCard = createPluginCard(plugin);
-                    pluginsGrid.appendChild(pluginCard);
-                });
+                
+                if (pluginsData.length === 0) {
+                    // 显示空状态
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = `
+                        <div class="icon">🔌</div>
+                        <h3>插件开发中</h3>
+                        <p>我们正在开发更多实用的插件，敬请期待！</p>
+                    `;
+                    pluginsGrid.appendChild(emptyState);
+                } else {
+                    pluginsData.forEach(plugin => {
+                        const pluginCard = createPluginCard(plugin);
+                        pluginsGrid.appendChild(pluginCard);
+                    });
+                }
                 console.log(`🔌 已加载 ${pluginsData.length} 个插件`);
             }
         }
